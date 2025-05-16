@@ -21,8 +21,8 @@ An Electron application that integrates with llama.cpp to process text prompts u
 
 1. Clone this repository:
    ```
-   git clone <your-repo-url>
-   cd nodejs-llama
+   git clone https://github.com/aruntemme/llama.cpp-electron.git
+   cd llama.cpp-electron
    ```
 
 2. Install dependencies:
@@ -30,8 +30,9 @@ An Electron application that integrates with llama.cpp to process text prompts u
    npm install
    ```
 
-3. Build llama.cpp (required before building the Node.js addon):
+3. Clone and build llama.cpp (required before building the Node.js addon):
    ```
+   git clone https://github.com/ggerganov/llama.cpp.git
    cd llama.cpp
    mkdir build
    cd build
