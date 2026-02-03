@@ -131,7 +131,7 @@ parse_args(argv: list of string): (string, string)
 initialize_cluster()
 {
 	# Create orchestrator with cluster
-	max_nodes := 100;  # Smaller cluster for chat responsiveness
+	max_nodes := 100;  # Limited cluster size for chat responsiveness
 	strategy := 1;     # least-loaded
 	
 	print("Starting distributed cluster (%d nodes)...\n", max_nodes);
@@ -257,7 +257,6 @@ show_history()
 get_ai_response(prompt: string)
 {
 	print("\n\033[1;32mLimbot:\033[0m ");
-	sys->fprint(fildes(1), "");  # Flush
 	
 	# Build context from conversation history
 	context := session.build_context();
@@ -306,7 +305,6 @@ oneshot_inference(prompt: string)
 	}
 	
 	print("Limbot: ");
-	sys->fprint(fildes(1), "");  # Flush
 	
 	response := orch.process(prompt, 256);
 	

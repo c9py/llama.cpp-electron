@@ -35,6 +35,7 @@ STATUS_FILE: con "/n/llambo/status";
 
 # Global orchestrator instance
 orch: ref Orchestrator;
+max_nodes_global: int;
 
 init(ctxt: ref Context, argv: list of string)
 {
@@ -60,6 +61,7 @@ init(ctxt: ref Context, argv: list of string)
 	
 	# Initialize orchestrator with distributed cluster
 	max_nodes := 1000;
+	max_nodes_global = max_nodes;
 	strategy := 1; # least-loaded
 	orch = llambo->Orchestrator.new(max_nodes, strategy);
 	
@@ -256,7 +258,7 @@ cluster_commands(args: list of string)
 	case cmd {
 		"info" =>
 			print("\nCluster Information:\n");
-			print("  Max Nodes: %d\n", 1000);
+			print("  Max Nodes: %d\n", max_nodes_global);
 			print("  Strategy: least-loaded\n");
 			print("  Type: Distributed Dis VM instances\n\n");
 		
