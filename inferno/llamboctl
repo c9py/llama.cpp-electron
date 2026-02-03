@@ -230,7 +230,7 @@ EOF
         
     metrics)
         # Export metrics
-        FORMAT="${1:---format}"
+        FORMAT="${1:--format}"
         OUTPUT="${2:-prometheus}"
         
         if [ "$FORMAT" = "--export" ]; then

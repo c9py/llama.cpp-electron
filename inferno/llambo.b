@@ -373,9 +373,10 @@ Orchestrator.process(orch: self ref Orchestrator, prompt: string, max_tokens: in
 	if (orch == nil || orch.balancer == nil)
 		return nil;
 	
-	# Create a dummy context for the request
-	# In production, each node would have its own model loaded
-	model := Model.load("/models/default.gguf", nil);
+	# Note: In production, each node would have its own model pre-loaded
+	# This is a simplified implementation for demonstration
+	# The model_path would come from the cluster configuration
+	model := Model.load("/models/llama-7b.gguf", nil);
 	ctx := Context.new(model, 2048, 512, 4);
 	
 	req := ref InferenceRequest;
