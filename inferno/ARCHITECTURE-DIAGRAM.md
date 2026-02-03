@@ -6,51 +6,100 @@
 │                      Global Inference Network Architecture                   │
 └─────────────────────────────────────────────────────────────────────────────┘
 
-                                  ┌──────────────┐
-                                  │   Client     │
-                                  │  (Requests)  │
-                                  └──────┬───────┘
-                                         │
-                                         ▼
-                          ┌──────────────────────────┐
-                          │    Orchestrator          │
-                          │  - Cluster Management    │
-                          │  - Auto-scaling          │
-                          │  - Node Spawning         │
-                          └──────────┬───────────────┘
-                                     │
-                                     ▼
-                          ┌──────────────────────────┐
-                          │    Load Balancer         │
-                          │  - Strategy Selection    │
-                          │  - Health Monitoring     │
-                          │  - Request Distribution  │
-                          └──────────┬───────────────┘
-                                     │
-                    ┌────────────────┼────────────────┐
-                    │                │                │
-                    ▼                ▼                ▼
-         ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-         │ ClusterNode-0001│ │ ClusterNode-0002│ │ ClusterNode-NNNN│
-         │                 │ │                 │ │                 │
-         │ ┌─────────────┐ │ │ ┌─────────────┐ │ │ ┌─────────────┐ │
-         │ │ Dis VM      │ │ │ │ Dis VM      │ │ │ │ Dis VM      │ │
-         │ │ Instance    │ │ │ │ Instance    │ │ │ │ Instance    │ │
-         │ ├─────────────┤ │ │ ├─────────────┤ │ │ ├─────────────┤ │
-         │ │llambo.dis   │ │ │ │llambo.dis   │ │ │ │llambo.dis   │ │
-         │ │Model: 1B    │ │ │ │Model: 7B    │ │ │ │Model: 13B   │ │
-         │ │Mem: 128MB   │ │ │ │Mem: 1GB     │ │ │ │Mem: 8GB     │ │
-         │ │CPU: 0.1     │ │ │ │CPU: 1       │ │ │ │CPU: 4       │ │
-         │ └─────────────┘ │ │ └─────────────┘ │ │ └─────────────┘ │
-         └─────────────────┘ └─────────────────┘ └─────────────────┘
-                    │                │                │
-                    └────────────────┴────────────────┘
-                                     │
-                                     ▼
-                          ┌──────────────────────────┐
-                          │   Styx Protocol (9P)     │
-                          │  Inter-node Messaging    │
-                          └──────────────────────────┘
+              ┌───────────────┐         ┌───────────────┐
+              │   Limbot CLI  │         │  Dish Shell   │
+              │  (AI Chat)    │         │ (Distributed) │
+              └───────┬───────┘         └───────┬───────┘
+                      │                         │
+                      └──────────┬──────────────┘
+                                 │
+                                 ▼
+                  ┌──────────────────────────┐
+                  │   Client Applications    │
+                  │    (API Requests)        │
+                  └──────────┬───────────────┘
+                             │
+                             ▼
+              ┌──────────────────────────┐
+              │    Orchestrator          │
+              │  - Cluster Management    │
+              │  - Auto-scaling          │
+              │  - Node Spawning         │
+              └──────────┬───────────────┘
+                         │
+                         ▼
+              ┌──────────────────────────┐
+              │    Load Balancer         │
+              │  - Strategy Selection    │
+              │  - Health Monitoring     │
+              │  - Request Distribution  │
+              └──────────┬───────────────┘
+                         │
+        ┌────────────────┼────────────────┐
+        │                │                │
+        ▼                ▼                ▼
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ ClusterNode-0001│ │ ClusterNode-0002│ │ ClusterNode-NNNN│
+│                 │ │                 │ │                 │
+│ ┌─────────────┐ │ │ ┌─────────────┐ │ │ ┌─────────────┐ │
+│ │ Dis VM      │ │ │ │ Dis VM      │ │ │ │ Dis VM      │ │
+│ │ Instance    │ │ │ │ Instance    │ │ │ │ Instance    │ │
+│ ├─────────────┤ │ │ ├─────────────┤ │ │ ├─────────────┤ │
+│ │llambo.dis   │ │ │ │llambo.dis   │ │ │ │llambo.dis   │ │
+│ │Model: 1B    │ │ │ │Model: 7B    │ │ │ │Model: 13B   │ │
+│ │Mem: 128MB   │ │ │ │Mem: 1GB     │ │ │ │Mem: 8GB     │ │
+│ │CPU: 0.1     │ │ │ │CPU: 1       │ │ │ │CPU: 4       │ │
+│ └─────────────┘ │ │ └─────────────┘ │ │ └─────────────┘ │
+└─────────────────┘ └─────────────────┘ └─────────────────┘
+        │                │                │
+        └────────────────┴────────────────┘
+                         │
+                         ▼
+              ┌──────────────────────────┐
+              │   Styx Protocol (9P)     │
+              │  Inter-node Messaging    │
+              └──────────────────────────┘
+```
+
+## Interactive Tools Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    User Interface Layer                          │
+└─────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────┐         ┌──────────────────────────┐
+│      Limbot CLI          │         │    Dish Integration      │
+│  (AI Chat Assistant)     │         │  (Distributed Shell)     │
+├──────────────────────────┤         ├──────────────────────────┤
+│ • Interactive chat       │         │ • Shell prompt           │
+│ • Conversation history   │         │ • Namespace access       │
+│ • Streaming responses    │         │ • Direct cluster control │
+│ • Context management     │         │ • Styx protocol hooks    │
+│ • /commands support      │         │ • Real-time status       │
+│                          │         │                          │
+│ Session Storage:         │         │ Namespace Mounts:        │
+│ /usr/llambo/             │         │ /n/dish/                 │
+│   limbot-history.txt     │         │ /n/llambo/               │
+│   limbot.conf            │         │   ctl, data, status      │
+└────────┬─────────────────┘         └────────┬─────────────────┘
+         │                                    │
+         └────────────────┬───────────────────┘
+                          │
+                          ▼
+              ┌──────────────────────────┐
+              │  llamboctl Interface     │
+              │  (Unified CLI Control)   │
+              ├──────────────────────────┤
+              │ llamboctl limbot         │
+              │ llamboctl dish           │
+              │ llamboctl status         │
+              └──────────┬───────────────┘
+                         │
+                         ▼
+              ┌──────────────────────────┐
+              │    Orchestrator API      │
+              └──────────────────────────┘
 ```
 
 ## Node Types & Distribution
@@ -143,6 +192,81 @@ Strategy 3: Random
 ┌──────────┐
 │  Client  │ "AI is artificial intelligence..."
 └──────────┘
+```
+
+## Interactive Tool Usage Flows
+
+### Limbot Chat Flow
+
+```
+┌──────────────┐
+│  User Input  │ "What is AI?"
+└──────┬───────┘
+       │
+       ▼
+┌────────────────────┐
+│  Limbot Session    │
+│  - Load history    │
+│  - Build context   │
+└────────┬───────────┘
+         │
+         ▼
+┌────────────────────┐
+│  Orchestrator      │
+│  - Queue request   │
+└────────┬───────────┘
+         │
+         ▼
+┌────────────────────┐
+│  Cluster Inference │
+│  - Distributed     │
+└────────┬───────────┘
+         │
+         ▼
+┌────────────────────┐
+│  Stream Response   │
+│  - Display tokens  │
+│  - Save to history │
+└────────┬───────────┘
+         │
+         ▼
+┌──────────────┐
+│  User sees:  │ "AI is artificial intelligence..."
+│  Next prompt │ "You: "
+└──────────────┘
+```
+
+### Dish Shell Flow
+
+```
+┌──────────────┐
+│ Dish Prompt  │ "llambo> status"
+└──────┬───────┘
+       │
+       ▼
+┌────────────────────┐
+│ Command Parser     │
+│ - Parse: status    │
+└────────┬───────────┘
+         │
+         ▼
+┌────────────────────┐
+│ Namespace Access   │
+│ - Read /n/llambo/  │
+│   status file      │
+└────────┬───────────┘
+         │
+         ▼
+┌────────────────────┐
+│ Orchestrator.      │
+│ status() → string  │
+└────────┬───────────┘
+         │
+         ▼
+┌──────────────┐
+│ Display      │ Cluster: 1000 nodes, 67% util
+│ llambo>      │ Next command
+└──────────────┘
 ```
 
 ## Namespace Isolation
