@@ -344,6 +344,46 @@ EOF
         
         echo "Overall Status: ${GREEN}HEALTHY${NC}"
         ;;
+    
+    limbot)
+        # Launch limbot CLI assistant
+        ACTION="${1:---interactive}"
+        shift || true
+        
+        case "$ACTION" in
+            -i|--interactive)
+                log "Starting Limbot in interactive mode..."
+                "$SCRIPT_DIR/limbot-cli" -i
+                ;;
+            -h|--help)
+                "$SCRIPT_DIR/limbot-cli" -h
+                ;;
+            *)
+                # One-shot mode with prompt
+                "$SCRIPT_DIR/limbot-cli" "$ACTION" "$@"
+                ;;
+        esac
+        ;;
+    
+    dish)
+        # Launch dish integration
+        log "Starting Inferno Dish integration..."
+        
+        INFERNO_ROOT="${INFERNO_ROOT:-/usr/inferno}"
+        EMU=""
+        if [ -x "$INFERNO_ROOT/Linux/386/bin/emu" ]; then
+            EMU="$INFERNO_ROOT/Linux/386/bin/emu"
+        elif [ -x "$INFERNO_ROOT/emu" ]; then
+            EMU="$INFERNO_ROOT/emu"
+        fi
+        
+        if [ -x "$EMU" ]; then
+            $EMU sh -c "run /dis/dish-integration.dis"
+        else
+            error "Inferno emulator not found"
+            exit 1
+        fi
+        ;;
         
     *)
         # Help
@@ -372,6 +412,11 @@ Commands:
     --validate               Validate config
     --edit                   Edit config
   health                  Run health check
+  limbot [options]        Launch Limbot AI chat assistant
+    -i, --interactive        Interactive mode (default)
+    -h, --help               Show limbot help
+    <prompt>                 One-shot inference
+  dish                    Launch Inferno Dish integration
   help                    Show this help
 
 Environment:
@@ -386,6 +431,9 @@ Examples:
   llamboctl balancer stats
   llamboctl metrics --export prometheus
   llamboctl health
+  llamboctl limbot
+  llamboctl limbot "What is AI?"
+  llamboctl dish
 
 For more information, see: inferno/README.md
 EOF

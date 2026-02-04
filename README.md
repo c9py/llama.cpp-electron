@@ -25,6 +25,8 @@ This project provides two ways to run llama.cpp inference:
 - Distributed cognition with collective inference capacity
 - Auto-scaling based on load and resource availability
 - Aggregate throughput of 10,000+ tokens/sec with 1000+ nodes
+- **Limbot**: AI chat assistant CLI with conversation history
+- **Dish Integration**: Interactive distributed shell for cluster access
 
 ## Quick Start
 
@@ -147,6 +149,21 @@ For distributed cluster deployment with thousands of tiny inference engines.
    ```bash
    ./llamboctl health
    ./llamboctl metrics --export prometheus
+   ```
+
+6. Use Limbot AI chat assistant:
+   ```bash
+   # Interactive chat mode
+   ./llamboctl limbot
+   
+   # One-shot inference
+   ./llamboctl limbot "What is distributed computing?"
+   ```
+
+7. Use Dish distributed shell:
+   ```bash
+   # Launch interactive shell
+   ./llamboctl dish
    ```
 
 ### Distributed Configuration

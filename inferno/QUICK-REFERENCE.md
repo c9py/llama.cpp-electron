@@ -145,6 +145,67 @@ llamboctl health
 
 # Shutdown cluster
 llamboctl shutdown
+
+# Launch Limbot AI chat assistant
+llamboctl limbot                    # Interactive mode
+llamboctl limbot "Your prompt"      # One-shot mode
+llamboctl limbot -h                 # Help
+
+# Launch Dish integration
+llamboctl dish
+```
+
+### limbot-cli
+
+```bash
+# Interactive AI chat
+./limbot-cli
+./limbot-cli -i
+
+# One-shot inference
+./limbot-cli "What is machine learning?"
+./limbot-cli "Explain neural networks"
+
+# Help
+./limbot-cli -h
+```
+
+**Interactive Commands:**
+```
+/help       - Show available commands
+/history    - Show conversation history
+/clear      - Clear conversation history
+/status     - Show cluster status
+/exit       - Exit limbot
+```
+
+### Dish Integration
+
+```bash
+# Launch distributed shell
+llamboctl dish
+
+# Or run dish-integration directly (if compiled)
+emu sh -c "run /dis/dish-integration.dis"
+```
+
+**Dish Shell Commands:**
+```
+llambo> help         - Show available commands
+llambo> status       - Show cluster status
+llambo> nodes        - List cluster nodes
+llambo> infer <text> - Run inference
+llambo> ask <text>   - Same as infer
+llambo> cluster info - Cluster information
+llambo> exit         - Exit shell
+```
+
+**Example Usage:**
+```
+llambo> status
+llambo> infer What is distributed computing?
+llambo> ask Explain Inferno OS
+llambo> exit
 ```
 
 ### deploy.sh

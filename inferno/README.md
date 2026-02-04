@@ -14,15 +14,23 @@ Llambo implements llama.cpp inference in pure Limbo, the programming language of
    - `llambo.m` - Module definition with ADT types
    - `llambo.b` - Implementation with inference and clustering logic
    - `llambotest.b` - Test and demonstration program
+   - `dish-integration.b` - Distributed shell integration
+   - `limbot.b` - AI chat assistant CLI
 
 2. **Distributed Cognition**
    - **ClusterNode**: Individual inference engine running in isolated Dis VM
    - **LoadBalancer**: Distributes requests across nodes with multiple strategies
    - **Orchestrator**: Manages cluster lifecycle and coordinates thousands of nodes
 
-3. **Deployment**
+3. **Interactive Tools**
+   - **Dish Integration**: Interactive distributed shell for cluster access
+   - **Limbot**: AI chat assistant with conversation history and streaming
+   - **llamboctl**: Cluster control utility with limbot/dish commands
+
+4. **Deployment**
    - `cluster-config.yaml` - Cluster topology and configuration
    - `deploy.sh` - Automated deployment script for Inferno instances
+   - `limbot-cli` - Shell wrapper for limbot assistant
 
 ## Features
 
@@ -106,6 +114,83 @@ CLUSTER_CONFIG=cluster-config.yaml ./deploy.sh deploy-cluster
 llamboctl init --config cluster-config.yaml
 llamboctl spawn --count 1000 --type tiny
 llamboctl status
+```
+
+## Interactive Tools
+
+### Limbot: AI Chat Assistant CLI
+
+Limbot provides an interactive AI chat interface powered by the distributed Llambo cluster:
+
+```sh
+# Interactive mode
+llamboctl limbot
+
+# Or use the direct CLI wrapper
+./limbot-cli
+
+# One-shot inference
+llamboctl limbot "What is machine learning?"
+./limbot-cli "Explain neural networks"
+```
+
+**Features:**
+- Interactive chat with conversation history
+- Streaming response display
+- Commands: `/help`, `/history`, `/clear`, `/status`, `/exit`
+- Automatic context management
+- Distributed inference across cluster
+- Persistent conversation history
+
+**Example Session:**
+```
+$ llamboctl limbot
+Initializing Limbot...
+Starting distributed cluster (100 nodes)...
+Cluster ready: 100 nodes active
+
+╔════════════════════════════════════════════════════════╗
+║          Limbot - AI Chat Assistant CLI               ║
+║        Powered by Distributed Llambo Cluster          ║
+╚════════════════════════════════════════════════════════╝
+
+You: What is distributed cognition?
+
+Limbot: Distributed cognition is an approach where intelligence
+emerges from the collective processing of multiple independent
+agents working together...
+[128 tokens, 45 ms]
+
+You: /exit
+Goodbye!
+```
+
+### Dish: Distributed Shell Integration
+
+Dish integration provides an interactive shell for direct cluster access:
+
+```sh
+# Launch dish integration
+llamboctl dish
+
+# Or directly
+./deploy.sh start-dish
+```
+
+**Features:**
+- Interactive shell for cluster control
+- Direct inference commands
+- Namespace mounting for distributed access
+- Styx protocol integration
+- Real-time cluster management
+
+**Example Commands:**
+```
+llambo> help
+llambo> status
+llambo> infer Tell me about AI
+llambo> nodes
+llambo> exit
 ```
 
 ## Configuration

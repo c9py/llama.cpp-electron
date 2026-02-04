@@ -77,6 +77,22 @@ compile_modules() {
         }
     fi
     
+    # Compile dish integration module
+    log_info "  Compiling dish-integration.b -> dish-integration.dis"
+    if [ -x "$EMU" ]; then
+        $EMU sh -c "limbo -o /dis/dish-integration.dis dish-integration.b" || {
+            log_warn "Failed to compile dish-integration.b (non-critical)"
+        }
+    fi
+    
+    # Compile limbot module
+    log_info "  Compiling limbot.b -> limbot.dis"
+    if [ -x "$EMU" ]; then
+        $EMU sh -c "limbo -o /dis/limbot.dis limbot.b" || {
+            log_warn "Failed to compile limbot.b (non-critical)"
+        }
+    fi
+    
     log_info "Compilation complete"
 }
 
@@ -95,11 +111,20 @@ deploy_local() {
     cp -v llambo.m "$DEPLOY_DIR/"
     cp -v llambo.b "$DEPLOY_DIR/"
     cp -v llambotest.b "$DEPLOY_DIR/"
+    cp -v dish-integration.b "$DEPLOY_DIR/"
+    cp -v limbot.b "$DEPLOY_DIR/"
     cp -v cluster-config.yaml "$DEPLOY_DIR/"
+    cp -v limbot-cli "$DEPLOY_DIR/"
     
     # Copy .dis files if they exist
     if [ -f "/dis/llambo.dis" ]; then
         cp -v /dis/llambo.dis "$DEPLOY_DIR/dis/" || true
+    fi
+    if [ -f "/dis/dish-integration.dis" ]; then
+        cp -v /dis/dish-integration.dis "$DEPLOY_DIR/dis/" || true
+    fi
+    if [ -f "/dis/limbot.dis" ]; then
+        cp -v /dis/limbot.dis "$DEPLOY_DIR/dis/" || true
     fi
     
     log_info "Local deployment complete"
